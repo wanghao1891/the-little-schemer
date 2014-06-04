@@ -11,10 +11,12 @@
 	    (else (cons (cat lat)
 			(subst2 new o1 o2 (cdr lat)))))))))
 
-(subst2 'vanilla 'chocolate 'banana '(banana ice cream with chocolate topping)) ;;value is (vanilla ice cream with chocolate topping) 
+(subst2 'vanilla 'chocolate 'banana 
+	'(banana ice cream with chocolate topping)) ;;value is (vanilla ice cream with chocolate topping) 
 
 ; Define multirember
 ; Removes all occurrence of atom a from list lat.
+;
 (define multirember
   (lambda (a lat)
     (cond
@@ -27,3 +29,18 @@
 		   (multirember a (cdr lat)))))))))
 
 (multirember 'cup '(coffee cup tea cup and hick cup)) ;;value is (coffee tea and hick)
+
+; The multiinsertR function inserts the element new to the right of all
+; occurrence of element old in the list lat.
+;
+(define multiinsertR
+  (lambda (new old lat)
+    (cond
+     ((null? lat) (quote ()))
+     ((eq? (car lat) old)
+      (cons old (cons new (multiinsertR new old (cdr lat)))))
+     (else
+      (cons (car lat) (multiinsertR new old (cdr lat)))))))
+
+(multiinsertR 'fried 'fish 
+	      '(chips and fish or fish and fried)) ;;vaule is (chips and fish fried or fish fried and fried)
